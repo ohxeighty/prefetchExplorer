@@ -6,6 +6,7 @@ prefetchExplorer.py [-h] [-o OUTPUT] <-f FILE | -d DIRECTORY>
 
 Example Output: 
 
+::
 CALC.EXE
 Size: 23538
 Windowa Vista / 7
@@ -105,3 +106,5 @@ Directory Strings
 	\DEVICE\HARDDISKVOLUME2\WINDOWS\GLOBALIZATION
 	
 	\DEVICE\HARDDISKVOLUME2\WINDOWS\GLOBALIZATION\SORTING
+::
+

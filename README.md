@@ -10,7 +10,7 @@ Example Output:
 
 CALC.EXE
 Size: 23538
-Windowa Vista / 7
+Windows Vista / 7
 Run Count: 2
 Last Run: 1601-01-01 00:01:49.639220
 Supporting Files

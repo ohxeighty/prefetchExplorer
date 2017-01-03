@@ -55,7 +55,7 @@ def parse_file(file):
 	if fVersion == 17:
 		version = "Windows XP / 2003"
 	elif fVersion == 23:
-		version = "Windowa Vista / 7"
+		version = "Windows Vista / 7"
 	elif fVersion == 26:
 		version = "Windows 8 / 8.1"
 	elif fVersion == 30:
@@ -74,21 +74,13 @@ def parse_file(file):
 	#Read file header dependant on version, record offsets as well as last execution time and run counter 	
 	f.seek(84)
 	oA = struct.unpack("<I", f.read(4))[0]
-	f.seek(88)
 	eA = struct.unpack("<I", f.read(4))[0]
-	f.seek(92)
 	oB = struct.unpack("<I", f.read(4))[0]
-	f.seek(96)
 	eB = struct.unpack("<I", f.read(4))[0]
-	f.seek(100)
 	oC = struct.unpack("<I", f.read(4))[0]
-	f.seek(104)
 	lC = struct.unpack("<I", f.read(4))[0]
-	f.seek(108)
 	oD = struct.unpack("<I", f.read(4))[0]
-	f.seek(112)
 	eD = struct.unpack("<I", f.read(4))[0]
-	f.seek(116)
 	lD = struct.unpack("<I", f.read(4))[0]
 	if fVersion == 17:
 		f.seek(120)

@@ -1,10 +1,9 @@
 # prefetchExplorer
 Parses prefetch files when supplied either a file or a folder with prefetch files.
 
-Usage
-prefetchExplorer.py [-h] [-o OUTPUT] <-f FILE | -d DIRECTORY>  
+Usage: `prefetchExplorer.py [-h] [-o OUTPUT] (-f FILE | -d DIRECTORY)`
 
-Example Output: 
+Example Output:
 
 ```
 
@@ -89,7 +88,7 @@ Supporting Files
 
 	\DEVICE\HARDDISKVOLUME2\$MFT
 
-	
+
 
 
 ===========
@@ -101,11 +100,11 @@ Serial Number: 88008c2fL
 Directory Strings
 
 	\DEVICE\HARDDISKVOLUME2\WINDOWS
-	
+
 	\DEVICE\HARDDISKVOLUME2\WINDOWS\FONTS
-	
+
 	\DEVICE\HARDDISKVOLUME2\WINDOWS\GLOBALIZATION
-	
+
 	\DEVICE\HARDDISKVOLUME2\WINDOWS\GLOBALIZATION\SORTING
-	
+
 ```

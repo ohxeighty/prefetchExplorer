@@ -6,14 +6,17 @@ import struct
 import datetime
 import binascii
 import os
+
 #def usage():
 #	args.print_help()
+
 class volume():
 	def __init__(self, path, creationTime, serialNumber,directoryStrings):
 		self.path = path
 		self.creationTime = creationTime
 		self.serialNumber = serialNumber
 		self.directoryStrings = directoryStrings
+
 class parsedFile():
 	def __init__(self, name, size, version, supportingFiles, volumeInfo, runCount, lastExecuted):
 		self.name = name
@@ -28,6 +31,7 @@ def error(error="", fatal=0):
 	print "[!] Error: " + error
 	if fatal:
 		sys.exit(1)
+
 def format_output(file):
 	output = str(file.name) + "\n" + "Size: " + str(file.size) + "\n" + str(file.version) + "\nRun Count: " + str(file.runCount) + "\nLast Run: " + str(file.lastExecuted) + "\nSupporting Files\n\n"
 	for i in file.supportingFiles:
@@ -36,11 +40,9 @@ def format_output(file):
 	output+="\n===========\nVolume Info\n===========\n"
 
 	for i in file.volumeInfo:
-
 		output+="Path: " + str(i.path) + "\nCreation Time: " + str(i.creationTime) + "\nSerial Number: " + str(i.serialNumber) + "\nDirectory Strings\n\n"
 		for i in i.directoryStrings:
 			output+="\t" + str(i) + "\n"
-
 
 	return output
 
@@ -66,11 +68,14 @@ def parse_file(file):
 	#File size
 	f.seek(12)
 	fLength = struct.unpack("<I", f.read(4))[0]
+
 	#File Name
 	f.seek(16)
 	fName = f.read(60).decode("utf-16")
+
 	# Strips out garbage
 	fName = fName.split("\x00")[0]
+
 	#Read file header dependant on version, record offsets as well as last execution time and run counter
 	f.seek(84)
 	oA = struct.unpack("<I", f.read(4))[0]
@@ -82,6 +87,7 @@ def parse_file(file):
 	oD = struct.unpack("<I", f.read(4))[0]
 	eD = struct.unpack("<I", f.read(4))[0]
 	lD = struct.unpack("<I", f.read(4))[0]
+
 	if fVersion == 17:
 		f.seek(120)
 		#Convert FILETIME to DATETIME
@@ -107,8 +113,8 @@ def parse_file(file):
 	#List of supporting files, Section C
 	f.seek(oC)
 	temp = f.read(lC).decode("utf-16")
-	#Split on null byte
 
+	#Split on null byte
 	supportingFiles = temp.split("\x00")
 
 	#Section D Volume Info
@@ -117,9 +123,11 @@ def parse_file(file):
 		f.seek(oD+(i*lD))
 		oV = struct.unpack("<I", f.read(4))[0]
 		lV = struct.unpack("<I", f.read(4))[0]
+
 		#Volume Creation Time
 		creationTime = (struct.unpack("<Q", f.read(8))[0]) / 10.
 		creationTime = datetime.datetime(1601, 1, 1) + datetime.timedelta(microseconds=creationTime)
+
 		#Volume Serial Number
 		serialNumber = hex(struct.unpack_from("<I", f.read(4))[0]).strip("0x")
 		oF = struct.unpack("<I", f.read(4))[0]
@@ -129,12 +137,11 @@ def parse_file(file):
 
 		#Volume Path
 		f.seek(oV+oD+(i*lD))
+
 		#Length to include terminating \x00 for decode ( I think )
 		volumePath = f.read(lV * 2).decode("utf-16")
 
-
 		# Not quite sure what the NTFS file reference is, 6 bytes for an MFT entry index and 2 for a sequence number.
-
 
 		#Directory Strings
 		f.seek(oD + oDS)
@@ -145,6 +152,7 @@ def parse_file(file):
 			directoryStrings.append(directoryString)
 
 		volumeInfo.append(volume(volumePath,creationTime,serialNumber, directoryStrings))
+
 	return parsedFile(fName, fLength, version, supportingFiles, volumeInfo, runCount, lastExecution)
 
 #main
@@ -173,7 +181,6 @@ elif args.directory:
 	try:
 		output = ""
 		for file in os.listdir(args.directory):
-
 			if file.endswith(".pf"):
 				try:
 					print args.directory+"\\"+file
@@ -182,20 +189,13 @@ elif args.directory:
 					print write
 
 					output+=write
-
-
-
 				except:
 					error("Could not parse file, skipping")
 		if args.output:
-						try:
-							out = open(args.output, "w")
-							out.write(output)
-						except:
-							error("Could not output to file")
-
-
+			try:
+				out = open(args.output, "w")
+				out.write(output)
+			except:
+				error("Could not output to file")
 	except:
 		error("Directory does not exist")
-
-

@@ -1,8 +1,7 @@
 # prefetchExplorer
 Parses prefetch files when supplied either a file or a folder with prefetch files.
 
-Usage
-prefetchExplorer.py [-h] [-o OUTPUT] <-f FILE | -d DIRECTORY>
+Usage: `prefetchExplorer.py [-h] [-o OUTPUT] (-f FILE | -d DIRECTORY)`
 
 Example Output:
 
